@@ -6,10 +6,7 @@ Assignment 2: Files & Directories
 - Creates new files in the newly created directory and writes processed data to these files
 
 Compile using the command below:
-gcc --std=gnu99 -o movies main.c
+gcc --std=gnu99 -o movies_by_year main.c
 
 Run using the command below:
-./movies <filepath>
-
-Example:
-./movies movies_sample_1.csv
+./movies_by_year
