@@ -177,7 +177,7 @@ int main(int argc, const char * argv[]) {
 		if (input == 1)
 			fileToProcess();
 		else if (input != 2)
-			printf("You entered an incorrect choice. Try again.\n");
+			printf("You entered an incorrect choice. Try again.\n\n");
 	}
 	return 0;
 }
