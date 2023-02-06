@@ -32,7 +32,7 @@ void processLine(char *currLine, char newPath[24]) {
 	// Get filepath from curr path & year
 	char filename[34];
 	char *title = strtok(currLine, ",");
-	sprintf(filename, "%s/%i.txt", newPath, atoi(strtok(NULL, ",")));
+	sprintf(filename, "%s/%s.txt", newPath, strtok(NULL, ","));
 
 	// Create file & append title, then close & set perms
 	FILE *file = fopen(filename, "a");
