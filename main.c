@@ -85,7 +85,7 @@ void getEstFile(int mode, char* filename) {
 	// Open dir and set init size based on the mode
 	DIR* currDir = opendir(".");
 	struct dirent *aDir;
-	off_t size = --mode ? OFF_MAX : 0;
+	off_t size = --mode ? LLONG_MAX : 0;
 	struct stat dirStat;
 	
 	// Loop over each entry in dir
