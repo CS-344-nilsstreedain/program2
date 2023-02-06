@@ -11,10 +11,44 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 
 void processFile(char *filename) {
+	char newPath[100];
+	srandom((unsigned int) time(NULL));
+	sprintf(newPath, "./streedan.movies.%d", (int) random() % 100000);
+	if (mkdir(newPath, 0750))
+ 		perror("mkdir");
+	
+//	char *currLine = NULL;
+//	size_t len = 0;
+	FILE *movieFile = fopen(filename, "r");
 	printf("Now processing the chosen file named %s\n", filename);
-	printf("Created directory with name %s\n\n", "unknown");
+	
+//	getline(&currLine, &len, movieFile);
+//	while (getline(&currLine, &len, movieFile) != -1) {
+	char line[100];
+	while (fgets(line, 100, movieFile)) {
+//		char *saveptr;
+		
+//		char *title = strtok_r(currLine, ",", &saveptr);
+//		int year = atoi(strtok_r(NULL, ",", &saveptr));
+		char *title = strtok(line, ",");
+		int year = atoi(strtok(NULL, ","));
+		
+		char tempPath[100];
+		sprintf(tempPath, "%s/%i.txt", newPath, year);
+		
+//		int fd = open(tempPath, 521, 0640);
+//		write(fd, title, strlen(title));
+		FILE *file = fopen(tempPath, "a");
+		fprintf(file, "%s\n", title);
+		fclose(file);
+		chmod(tempPath, 0640);
+	}
+	fclose(movieFile);
+	printf("Created directory with name %s\n\n", newPath);
 }
 
 void getEstFile(int mode, char* filename) {
@@ -24,7 +58,7 @@ void getEstFile(int mode, char* filename) {
 	struct stat dirStat;
 	
 	while ((aDir = readdir(currDir)) != NULL) {
-		if (strncmp(aDir->d_name,"movies_", 7) == 0 && strcmp(aDir->d_name + aDir->d_namlen - 4, ".csv") == 0) {
+		if (!strncmp(aDir->d_name,"movies_", 7) && !strcmp(aDir->d_name + aDir->d_namlen - 4, ".csv")) {
 			stat(aDir->d_name, &dirStat);
 			
 			if ((!mode && dirStat.st_size > size) || (mode && dirStat.st_size < size)) {
@@ -37,10 +71,10 @@ void getEstFile(int mode, char* filename) {
 	closedir(currDir);
 }
 
-// 1 = max
-// 2 = min
-// 3 = custom
-void getName(int mode) {
+// mode = 1 -> maxSize
+// mode = 2 -> minSize
+// mode = 3 -> customName
+void getFilename(int mode) {
 	char filename[256];
 	if (mode == 3) {
 		printf("Enter the complete file name: ");
@@ -61,7 +95,7 @@ void fileToProcess(void) {
 	while (fileNotFound) {
 		printf("\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\n\nEnter a choice from 1 to 3: ");
 		scanf("%d", &input);
-		input > 0 && input < 4 ? getName(input) : printf("You entered an incorrect choice. Try again.");
+		input > 0 && input < 4 ? getFilename(input) : printf("You entered an incorrect choice. Try again.");
 	}
 }
 
