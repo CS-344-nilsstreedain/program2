@@ -91,7 +91,7 @@ void getEstFile(int mode, char* filename) {
 	// Loop over each entry in dir
 	while ((aDir = readdir(currDir)) != NULL) {
 		// If entry name starts with `movies_` and ends with `.csv`
-		if (!strncmp(aDir->d_name,"movies_", 7) && !strcmp(aDir->d_name + aDir->d_namlen - 4, ".csv")) {
+		if (!strncmp(aDir->d_name,"movies_", 7) && !strcmp(aDir->d_name + strlen(aDir->d_name) - 4, ".csv")) {
 			// Gather entry info
 			stat(aDir->d_name, &dirStat);
 			
