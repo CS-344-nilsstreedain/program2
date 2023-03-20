@@ -92,7 +92,6 @@ For example, if the user picks the option for the smallest file, and the name of
 ```
 Now processing the chosen file named movies_2.csv
 ```
-
 **Note: your program must print the message with the name of the chosen file. The items related to file choice will be graded based on this message.**
 
 ## Processing the File
